@@ -61,5 +61,18 @@ public class AppSpringDataTeste {
 			
 		}
 	}
+	
+	@Test
+	public void testeUpdate() {
+		
+		Optional<UsuarioSpringData> usuarioSpringData = interfaceSpringDataUser.findById(3L);
+		
+		UsuarioSpringData data = usuarioSpringData.get();
+		
+		data.setNome("Natan Dadalt Update Spring Data");
+		data.setIdade(33);
+		
+		interfaceSpringDataUser.save(data);
+	}
 
 }
