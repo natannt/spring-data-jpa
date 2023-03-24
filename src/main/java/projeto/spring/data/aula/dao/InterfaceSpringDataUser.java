@@ -2,6 +2,9 @@ package projeto.spring.data.aula.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -23,4 +26,9 @@ public interface InterfaceSpringDataUser extends CrudRepository<UsuarioSpringDat
 		// Processa qualquer coisa
 		return save(entity);
 	}
+	
+	@Modifying
+	@Transactional
+	@Query("delete from UsuarioSpringData u where u.nome = ?1")
+	public void deletePorNome(String nome);
 }
