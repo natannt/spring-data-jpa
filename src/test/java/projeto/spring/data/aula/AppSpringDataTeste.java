@@ -10,6 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import projeto.spring.data.aula.dao.InterfaceSpringDataUser;
+import projeto.spring.data.aula.dao.InterfaceTelefone;
+import projeto.spring.data.aula.model.Telefone;
 import projeto.spring.data.aula.model.UsuarioSpringData;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -18,6 +20,9 @@ public class AppSpringDataTeste {
 
 	@Autowired
 	private InterfaceSpringDataUser interfaceSpringDataUser;
+	
+	@Autowired
+	private InterfaceTelefone interfaceTelefone;
 
 	@Test
 	public void testeInsert() {
@@ -27,7 +32,7 @@ public class AppSpringDataTeste {
 		usuarioSpringData.setIdade(32);
 		usuarioSpringData.setLogin("java");
 		usuarioSpringData.setSenha("123");
-		usuarioSpringData.setNome("Pedro");
+		usuarioSpringData.setNome("Natan Dadalt");
 
 		interfaceSpringDataUser.save(usuarioSpringData);
 
@@ -36,7 +41,7 @@ public class AppSpringDataTeste {
 	@Test
 	public void testeConsulta() {
 
-		Optional<UsuarioSpringData> usuarioSpringData = interfaceSpringDataUser.findById(3L);
+		Optional<UsuarioSpringData> usuarioSpringData = interfaceSpringDataUser.findById(1L);
 
 		System.out.println(usuarioSpringData.get().getIdade());
 		System.out.println(usuarioSpringData.get().getEmail());
@@ -44,6 +49,15 @@ public class AppSpringDataTeste {
 		System.out.println(usuarioSpringData.get().getSenha());
 		System.out.println(usuarioSpringData.get().getNome());
 		System.out.println(usuarioSpringData.get().getId());
+		
+		for (Telefone telefone : usuarioSpringData.get().getTelefones()) {
+			
+			System.out.println(telefone.getNumero());
+			System.out.println(telefone.getTipo());
+			System.out.println(telefone.getId());
+			System.out.println(telefone.getUsuarioSpringData().getNome());
+			
+		}
 	}
 
 	@Test
@@ -127,5 +141,20 @@ public class AppSpringDataTeste {
 	@Test
 	public void testeUpdateEmailPorNome() {
 		interfaceSpringDataUser.updateEmailPorNome("testeupdate@gmail.com", "Pedro");
+	}
+	
+	
+	@Test
+	public void testeInsertTelefone() {
+		
+		Optional<UsuarioSpringData> usuarioSpringData = interfaceSpringDataUser.findById(8L);
+		
+		Telefone telefone = new Telefone();
+		telefone.setTipo("Casa");
+		telefone.setNumero("2131212412411");
+		telefone.setUsuarioSpringData(usuarioSpringData.get());
+		
+		
+		interfaceTelefone.save(telefone);
 	}
 }
